@@ -21,6 +21,7 @@ type Player struct {
 	PlayPause   *dom.HTMLButtonElement
 	ProgressBar *dom.HTMLInputElement
 	Time        *dom.HTMLPreElement
+	Fullscreen  *dom.HTMLButtonElement
 	Duration    int
 	FirstPlay   bool
 }
@@ -76,6 +77,12 @@ func NewPlayer(url string) *Player {
 	timeText.SetTextContent("0:00/0:00")
 	bottomControls.AppendChild(timeText)
 
+	// a button to enter fullscreen
+	fullscreen := document.CreateElement("button").(*dom.HTMLButtonElement)
+	fullscreen.SetClass("gopherVideo-fullscreen")
+	fullscreen.SetTextContent("fullscreen")
+	bottomControls.AppendChild(fullscreen)
+
 	controls.AppendChild(bottomControls)
 	container.AppendChild(controls)
 
@@ -87,6 +94,7 @@ func NewPlayer(url string) *Player {
 		PlayPause:   playpause,
 		ProgressBar: progressBar,
 		Time:        timeText,
+		Fullscreen:  fullscreen,
 		FirstPlay:   true,
 	}
 
@@ -137,6 +145,21 @@ func (p *Player) Setup() {
 		currentTime := p.Video.Get("currentTime").Int()
 		p.Video.Set("currentTime", p.ProgressBar.Value)
 		p.Time.SetTextContent(fmt.Sprintf("%s/%s", p.timeFormat(currentTime), p.timeFormat(p.Duration)))
+	})
+
+	p.Fullscreen.AddEventListener("click", true, func(event dom.Event) {
+		event.PreventDefault()
+		if p.Container.Get("requestFullscreen") != js.Undefined {
+			p.Container.Call("requestFullscreen")
+		} else if p.Container.Get("webkitRequestFullScreen") != js.Undefined {
+			p.Container.Call("webkitRequestFullScreen")
+		} else if p.Container.Get("mozRequestFullScreen") != js.Undefined {
+			p.Container.Call("mozRequestFullScreen")
+		} else if p.Container.Get("msRequestFullscreen") != js.Undefined {
+			p.Container.Call("msRequestFullscreen")
+		} else {
+			fmt.Println("can't enter fullscreen")
+		}
 	})
 
 	time.Sleep(500 * time.Millisecond)
