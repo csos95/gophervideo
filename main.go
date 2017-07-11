@@ -10,20 +10,23 @@ import (
 )
 
 var document = dom.GetWindow().Document()
+var documentElement = js.Global.Get("document")
+var body = document.DocumentElement().GetElementsByTagName("body")[0].(*dom.HTMLBodyElement)
 var cssSet = false
 
 // Player represents a gopher video player
 type Player struct {
-	ID          string
-	Container   *dom.HTMLDivElement
-	Video       *dom.HTMLVideoElement
-	Controls    *dom.HTMLDivElement
-	PlayPause   *dom.HTMLButtonElement
-	ProgressBar *dom.HTMLInputElement
-	Time        *dom.HTMLPreElement
-	Fullscreen  *dom.HTMLButtonElement
-	Duration    int
-	FirstPlay   bool
+	ID               string
+	Container        *dom.HTMLDivElement
+	Video            *dom.HTMLVideoElement
+	Controls         *dom.HTMLDivElement
+	PlayPause        *dom.HTMLButtonElement
+	ProgressBar      *dom.HTMLInputElement
+	Time             *dom.HTMLPreElement
+	FullscreenButton *dom.HTMLButtonElement
+	Duration         int
+	Fullscreen       bool
+	FirstPlay        bool
 }
 
 // NewPlayer returns a new gopher video player and the contained video
@@ -87,15 +90,16 @@ func NewPlayer(url string) *Player {
 	container.AppendChild(controls)
 
 	player := &Player{
-		ID:          id,
-		Container:   container,
-		Video:       video,
-		Controls:    controls,
-		PlayPause:   playpause,
-		ProgressBar: progressBar,
-		Time:        timeText,
-		Fullscreen:  fullscreen,
-		FirstPlay:   true,
+		ID:               id,
+		Container:        container,
+		Video:            video,
+		Controls:         controls,
+		PlayPause:        playpause,
+		ProgressBar:      progressBar,
+		Time:             timeText,
+		FullscreenButton: fullscreen,
+		Fullscreen:       false,
+		FirstPlay:        true,
 	}
 
 	return player
@@ -140,6 +144,7 @@ func (p *Player) Setup() {
 		p.Time.SetTextContent(fmt.Sprintf("%s/%s", p.timeFormat(currentTime), p.timeFormat(p.Duration)))
 	})
 
+	// seek through the video by dragging the progress bar
 	p.ProgressBar.AddEventListener("input", true, func(event dom.Event) {
 		event.PreventDefault()
 		currentTime := p.Video.Get("currentTime").Int()
@@ -147,8 +152,62 @@ func (p *Player) Setup() {
 		p.Time.SetTextContent(fmt.Sprintf("%s/%s", p.timeFormat(currentTime), p.timeFormat(p.Duration)))
 	})
 
-	p.Fullscreen.AddEventListener("click", true, func(event dom.Event) {
+	// click the fullscreen button to enter/exit fullscreen
+	p.FullscreenButton.AddEventListener("click", true, func(event dom.Event) {
 		event.PreventDefault()
+		p.ToggleFullscreenState()
+	})
+
+	// fullscreenchange events to toggle the container style
+	document.AddEventListener("fullscreenchange", false, func(event dom.Event) {
+		fmt.Println("fullscreen change")
+		p.ToggleFullscreenStyle()
+	})
+	document.AddEventListener("webkitfullscreenchange", false, func(event dom.Event) {
+		fmt.Println("fullscreen change")
+		p.ToggleFullscreenStyle()
+	})
+	document.AddEventListener("mozfullscreenchange", false, func(event dom.Event) {
+		fmt.Println("fullscreen change")
+		p.ToggleFullscreenStyle()
+	})
+	document.AddEventListener("MSFullscreenChange", false, func(event dom.Event) {
+		fmt.Println("fullscreen change")
+		p.ToggleFullscreenStyle()
+	})
+
+	// keypress event listener for keybinds
+	document.AddEventListener("keypress", false, func(event dom.Event) {
+		key := event.(*dom.KeyboardEvent).Key
+		fmt.Printf("|%s|\n", key)
+		switch key {
+		case " ":
+			p.TogglePlay()
+		case "f":
+			p.ToggleFullscreenState()
+		}
+	})
+
+	time.Sleep(500 * time.Millisecond)
+	p.Duration = p.Video.Get("duration").Int()
+	p.ProgressBar.SetAttribute("max", fmt.Sprintf("%d", p.Duration))
+}
+
+// ToggleFullscreenState toggles the fullscreen state of the container
+func (p *Player) ToggleFullscreenState() {
+	if p.Fullscreen {
+		if documentElement.Get("exitFullscreen") != js.Undefined {
+			documentElement.Call("exitFullscreen")
+		} else if documentElement.Get("webkitExitFullscreen") != js.Undefined {
+			documentElement.Call("webkitExitFullscreen")
+		} else if documentElement.Get("mozCancelFullScreen") != js.Undefined {
+			documentElement.Call("mozCancelFullScreen")
+		} else if documentElement.Get("msExitFullscreen") != js.Undefined {
+			documentElement.Call("msExitFullscreen")
+		} else {
+			fmt.Println("can't exit fullscreen")
+		}
+	} else {
 		if p.Container.Get("requestFullscreen") != js.Undefined {
 			p.Container.Call("requestFullscreen")
 		} else if p.Container.Get("webkitRequestFullScreen") != js.Undefined {
@@ -160,11 +219,17 @@ func (p *Player) Setup() {
 		} else {
 			fmt.Println("can't enter fullscreen")
 		}
-	})
+	}
+}
 
-	time.Sleep(500 * time.Millisecond)
-	p.Duration = p.Video.Get("duration").Int()
-	p.ProgressBar.SetAttribute("max", fmt.Sprintf("%d", p.Duration))
+// ToggleFullscreenStyle toggles the fullscreen style of the container and fullscreen variables
+func (p *Player) ToggleFullscreenStyle() {
+	if p.Fullscreen {
+		p.Container.SetAttribute("style", "width: 640px;")
+	} else {
+		p.Container.SetAttribute("style", "width:100%;height:100%;top:0;left:0;")
+	}
+	p.Fullscreen = !p.Fullscreen
 }
 
 // formats the time in days:hours:minutes:seconds leaving off empty fields to the left
@@ -180,15 +245,17 @@ func (p *Player) timeFormat(seconds int) string {
 }
 
 // set the css for the gopherVideo player
-func setCss() {
+func setCSS() {
 	css := `
 	.gopherVideo {
+		background-color: #000;
 		position: relative;
-		display: inline-block;
+		width: 640px;
 	}
 	.gopherVideo-video {
-		width: 640px;
 		display: flex;
+		width: 100%;
+		height: 100%;
 	}
 	.gopherVideo-controls {
 		position: absolute;
