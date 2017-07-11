@@ -34,7 +34,7 @@ func NewPlayer(url string) *Player {
 	id := "1"
 
 	if !cssSet {
-		setCss()
+		setCSS()
 	}
 
 	// div container for the video and controls
