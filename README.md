@@ -22,6 +22,8 @@ SVG icons provided by [Open Iconic](www.useiconic.com/open)
 | show buffered data on progress bar | not started | will do when decorating the progress bar |
 | resize elements as needed | not started | right now, this means resize the progress bar to fill the space in fullscreen |
 | show time on hover over progress bar | not started |
+| click in window to play/pause | not started |
+| double click in window to enter/exit fullscreen | not started |
 
 ## Controls
 | Key | Action |
