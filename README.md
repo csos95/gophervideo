@@ -53,7 +53,7 @@ All other dependencies will be pulled with `go get`
 | fullscreen | done |
 | time/duration text | working, not decorated |
 | progress bar | working, not decorated |
-| volume bar | not started |
+| volume bar | working, not fully decorated | the volume icon changes based on the volume. The bar itself is undecorated |
 | show controls on hover | done |
 | keybinds | done | see [Controls](#controls) |
 | title bar | not started |

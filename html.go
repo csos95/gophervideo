@@ -61,6 +61,22 @@ func (p *Player) setupHTML() {
 	durationText.SetTextContent("0:00")
 	bottomControls.AppendChild(durationText)
 
+	// a volume icon
+	volumeIcon := createSVG("M3.34 0l-1.34 2h-2v4h2l1.34 2h.66v-8h-.66zm1.66 1v1c.17 0 .34.02.5.06.86.22 1.5 1 1.5 1.94s-.63 1.72-1.5 1.94c-.16.04-.33.06-.5.06v1c.25 0 .48-.04.72-.09h.03c1.3-.33 2.25-1.51 2.25-2.91 0-1.4-.95-2.58-2.25-2.91-.23-.06-.49-.09-.75-.09zm0 2v2c.09 0 .18-.01.25-.03.43-.11.75-.51.75-.97 0-.46-.31-.86-.75-.97-.08-.02-.17-.03-.25-.03z", "", "0 0 8 8")
+	volumeIcon.SetAttribute("class", "GopherVideo-volume")
+	volumeIcon.SetAttribute("width", "20px")
+	volumeIcon.SetAttribute("height", "20px")
+	bottomControls.AppendChild(volumeIcon)
+
+	// the progress bar for the video
+	volumeBar := document.CreateElement("input").(*dom.HTMLInputElement)
+	volumeBar.SetClass("GopherVideo-volumebar")
+	volumeBar.SetAttribute("type", "range")
+	volumeBar.SetAttribute("min", "0")
+	volumeBar.SetAttribute("max", "100")
+	volumeBar.Value = "70"
+	bottomControls.AppendChild(volumeBar)
+
 	// a button to enter fullscreen
 	fullscreenButton := createSVG("M0 0v4l1.5-1.5 1.5 1.5 1-1-1.5-1.5 1.5-1.5h-4zm5 4l-1 1 1.5 1.5-1.5 1.5h4v-4l-1.5 1.5-1.5-1.5z", "", "0 0 8 8")
 	fullscreenButton.SetAttribute("class", "GopherVideo-fullscreen")
@@ -78,6 +94,8 @@ func (p *Player) setupHTML() {
 	p.ProgressBar = progressBar
 	p.TimeText = timeText
 	p.DurationText = durationText
+	p.VolumeIcon = volumeIcon
+	p.VolumeBar = volumeBar
 	p.FullscreenButton = fullscreenButton
 }
 

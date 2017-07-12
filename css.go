@@ -38,7 +38,6 @@ func (p *Player) setupCSS() {
 	.GopherVideo-playpause {
 		margin: auto;
 		position: absolute;
-		top: 0;
 		left: 0;
 		bottom: 0;
 		fill: #fff;
@@ -47,7 +46,6 @@ func (p *Player) setupCSS() {
 	.GopherVideo-time {
 		margin: auto;
 		position: absolute;
-		top: 10px;
 		left: 40px;
 		bottom: 10px;
 		color: #fff;
@@ -55,18 +53,41 @@ func (p *Player) setupCSS() {
 	.GopherVideo-progressbar {
 		margin: auto;
 		position: absolute;
-		top: 10px;
 		left: 90px;
 		bottom: 10px;
-		width: 450px;
+		width: 420px;
 	}
 	.GopherVideo-duration {
 		margin: auto;
 		position: absolute;
-		top: 10px;
-		right: 40px;
+		right: 70px;
 		bottom: 10px;
 		color: #fff;
+	}
+	.GopherVideo-volume {
+		margin: auto;
+		position: absolute;
+		right: 40px;
+		bottom: 0;
+		fill: #fff;
+		padding: 10px 0px; 10px; 10px;
+	}
+	.GopherVideo-volumebar {
+		margin: auto;
+		position: absolute;
+		display: none;
+		right: 30px;
+		bottom: 40px;
+		width: 20px;
+		height: 40px;
+		padding: 10px;
+		-webkit-appearance: slider-vertical; /* WebKit */
+	}
+	.GopherVideo-volume:hover~.GopherVideo-volumebar {
+		display: inline-block;
+	}
+	.GopherVideo-volumebar:hover {
+		display: inline-block;
 	}
 	.GopherVideo-fullscreen {
 		margin: auto;

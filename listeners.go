@@ -30,6 +30,14 @@ func (p *Player) setupListeners() {
 		p.Seek(seekTime)
 	})
 
+	// change the volume dragging the volume bar
+	p.VolumeBar.AddEventListener("input", true, func(event dom.Event) {
+		event.PreventDefault()
+		volume, _ := strconv.Atoi(p.VolumeBar.Value)
+		fmt.Println(volume)
+		p.ChangeVolume(volume)
+	})
+
 	// click the fullscreen button to enter/exit fullscreen
 	p.FullscreenButton.AddEventListener("click", true, func(event dom.Event) {
 		event.PreventDefault()

@@ -24,6 +24,8 @@ type Player struct {
 	ProgressBar      *dom.HTMLInputElement
 	TimeText         *dom.HTMLPreElement
 	DurationText     *dom.HTMLPreElement
+	VolumeIcon       *dom.BasicHTMLElement
+	VolumeBar        *dom.HTMLInputElement
 	FullscreenButton *dom.BasicHTMLElement
 	Duration         int
 	Fullscreen       bool

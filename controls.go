@@ -78,6 +78,23 @@ func (p *Player) SeekOffset(seekOffset int) {
 	p.Seek(seekTime)
 }
 
+// ChangeVolume sets the volume 0-100
+func (p *Player) ChangeVolume(volume int) {
+	p.Video.Set("volume", float64(volume)*0.01)
+
+	volumePath := p.VolumeIcon.FirstChild().(dom.Element)
+	if volume == 0 {
+		volumePath.SetAttribute("d", "M3.34 0l-1.34 2h-2v4h2l1.34 2h.66v-8h-.66z")
+		volumePath.SetAttribute("transform", "translate(2)")
+	} else if volume < 50 {
+		volumePath.SetAttribute("d", "M3.34 0l-1.34 2h-2v4h2l1.34 2h.66v-8h-.66zm1.66 3v2c.09 0 .18-.01.25-.03.43-.11.75-.51.75-.97 0-.46-.31-.86-.75-.97-.08-.02-.17-.03-.25-.03z")
+		volumePath.SetAttribute("transform", "translate(1)")
+	} else {
+		volumePath.SetAttribute("d", "M3.34 0l-1.34 2h-2v4h2l1.34 2h.66v-8h-.66zm1.66 1v1c.17 0 .34.02.5.06.86.22 1.5 1 1.5 1.94s-.63 1.72-1.5 1.94c-.16.04-.33.06-.5.06v1c.25 0 .48-.04.72-.09h.03c1.3-.33 2.25-1.51 2.25-2.91 0-1.4-.95-2.58-2.25-2.91-.23-.06-.49-.09-.75-.09zm0 2v2c.09 0 .18-.01.25-.03.43-.11.75-.51.75-.97 0-.46-.31-.86-.75-.97-.08-.02-.17-.03-.25-.03z")
+		volumePath.SetAttribute("transform", "")
+	}
+}
+
 // ToggleFullscreenState toggles the fullscreen state of the container
 func (p *Player) ToggleFullscreenState() {
 	if p.Fullscreen {
