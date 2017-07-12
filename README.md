@@ -1,11 +1,11 @@
 # GopherVideo
-A video player written with gopherjs.
+A video player written with GopherJS.
 
 ## Table of Contents
 
   - [Prerequisites](#prerequisites)
   - [Installation and Usage](#installation-and-usage)
-  - [Features/Todo List](#features-list)
+  - [Features/](#features-list)
   - [Controls](#controls)
   - [Frequently Asked Questions](#frequently-asked-questions)
   - [License](#license)
