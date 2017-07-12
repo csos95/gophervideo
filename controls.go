@@ -14,7 +14,6 @@ func (p *Player) Play() {
 	p.Video.Play()
 	playpausePath := p.PlayPause.FirstChild().(dom.Element)
 	playpausePath.SetAttribute("d", "M0 0v6h2v-6h-2zm4 0v6h2v-6h-2z")
-	playpausePath.SetAttribute("transform", "translate(1 1)")
 
 	// if this if the first time the video has been played, duration text and progressbar size
 	if p.FirstPlay {
@@ -50,7 +49,6 @@ func (p *Player) Pause() {
 	p.Video.Pause()
 	playpausePath := p.PlayPause.FirstChild().(dom.Element)
 	playpausePath.SetAttribute("d", "M0 0v6l6-3-6-3z")
-	playpausePath.SetAttribute("transform", "translate(1 1)")
 }
 
 // TogglePlay toggles the play state of the video
@@ -113,8 +111,12 @@ func (p *Player) ToggleFullscreenState() {
 func (p *Player) toggleFullscreenStyle() {
 	if p.Fullscreen {
 		p.Container.SetAttribute("style", "width: 640px;")
+		fullscreenPath := p.FullscreenButton.FirstChild().(dom.Element)
+		fullscreenPath.SetAttribute("d", "M0 0v4l1.5-1.5 1.5 1.5 1-1-1.5-1.5 1.5-1.5h-4zm5 4l-1 1 1.5 1.5-1.5 1.5h4v-4l-1.5 1.5-1.5-1.5z")
 	} else {
 		p.Container.SetAttribute("style", "width:100%;height:100%;top:0;left:0;")
+		fullscreenPath := p.FullscreenButton.FirstChild().(dom.Element)
+		fullscreenPath.SetAttribute("d", "M1 0l-1 1 1.5 1.5-1.5 1.5h4v-4l-1.5 1.5-1.5-1.5zm3 4v4l1.5-1.5 1.5 1.5 1-1-1.5-1.5 1.5-1.5h-4z")
 	}
 	p.Fullscreen = !p.Fullscreen
 }

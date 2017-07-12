@@ -73,6 +73,7 @@ func (p *Player) setupCSS() {
 		top: 10px;
 		right: 10px;
 		bottom: 10px;
+		fill: #fff;
 	}
 	`
 	style := js.Global.Get("document").Call("createElement", "style")

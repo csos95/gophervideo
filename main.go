@@ -20,11 +20,11 @@ type Player struct {
 	Container        *dom.HTMLDivElement
 	Video            *dom.HTMLVideoElement
 	Controls         *dom.HTMLDivElement
-	PlayPause        dom.Element
+	PlayPause        *dom.BasicHTMLElement
 	ProgressBar      *dom.HTMLInputElement
 	TimeText         *dom.HTMLPreElement
 	DurationText     *dom.HTMLPreElement
-	FullscreenButton *dom.HTMLButtonElement
+	FullscreenButton *dom.BasicHTMLElement
 	Duration         int
 	Fullscreen       bool
 	FirstPlay        bool

@@ -71,9 +71,18 @@ func (p *Player) setupHTML() {
 	bottomControls.AppendChild(durationText)
 
 	// a button to enter fullscreen
-	fullscreen := document.CreateElement("button").(*dom.HTMLButtonElement)
-	fullscreen.SetClass("gopherVideo-fullscreen")
-	fullscreen.SetTextContent("fullscreen")
+	object = js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "svg")
+	fullscreen := objectToBasicHTMLElement(object)
+	fullscreen.SetAttribute("xmlns", "http://www.w3.org/2000/svg")
+	fullscreen.SetAttribute("class", "gopherVideo-fullscreen")
+	fullscreen.SetAttribute("width", "20px")
+	fullscreen.SetAttribute("height", "20px")
+	fullscreen.SetAttribute("viewBox", "0 0 8 8")
+
+	object = js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "path")
+	fullscreenPath := objectToBasicHTMLElement(object)
+	fullscreenPath.SetAttribute("d", "M0 0v4l1.5-1.5 1.5 1.5 1-1-1.5-1.5 1.5-1.5h-4zm5 4l-1 1 1.5 1.5-1.5 1.5h4v-4l-1.5 1.5-1.5-1.5z")
+	fullscreen.AppendChild(fullscreenPath)
 	bottomControls.AppendChild(fullscreen)
 
 	controls.AppendChild(bottomControls)
@@ -89,6 +98,6 @@ func (p *Player) setupHTML() {
 	p.FullscreenButton = fullscreen
 }
 
-func objectToBasicHTMLElement(object *js.Object) dom.Element {
+func objectToBasicHTMLElement(object *js.Object) *dom.BasicHTMLElement {
 	return &dom.BasicHTMLElement{&dom.BasicElement{&dom.BasicNode{object}}}
 }
