@@ -48,6 +48,18 @@ func (p *Player) Seek(seekTime int) {
 	p.TimeText.SetTextContent(p.timeFormat(seekTime))
 }
 
+// SeekOffset seeks by an offset. a positive offset seeks forward, a negative offset seeks backward
+func (p *Player) SeekOffset(seekOffset int) {
+	currentTime := p.Video.Get("currentTime").Int()
+	seekTime := currentTime + seekOffset
+	if seekTime < 0 {
+		seekTime = 0
+	} else if seekTime > p.Duration {
+		seekTime = p.Duration
+	}
+	p.Seek(seekTime)
+}
+
 // ToggleFullscreenState toggles the fullscreen state of the container
 func (p *Player) ToggleFullscreenState() {
 	if p.Fullscreen {

@@ -64,8 +64,12 @@ func (p *Player) setupListeners() {
 		}
 		fmt.Printf("|%s|\n", key)
 		switch key {
-		case " ":
+		case " ", "k":
 			p.TogglePlay()
+		case "j":
+			p.SeekOffset(-10)
+		case "l":
+			p.SeekOffset(10)
 		case "f":
 			p.ToggleFullscreenState()
 		}
