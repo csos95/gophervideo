@@ -5,16 +5,18 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"github.com/NYTimes/gziphandler"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "index.html")
 	})
-	http.HandleFunc("/gopherjs/gopherjs.js", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Encoding", "gzip")
-		http.ServeFile(w, r, "gopherjs/gopherjs.js.gz")
+	jsHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "gopherjs/gopherjs.js")
 	})
+	http.Handle("/gopherjs/gopherjs.js", gziphandler.GzipHandler(jsHandler))
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "favicon.png")
 	})
