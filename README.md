@@ -3,11 +3,18 @@ A video player written with gopherjs.
 
 ## Table of Contents
 
+  - [Prerequisites](#prerequisites)
   - [Installation and Usage](#installation-and-usage)
   - [Features/Todo List](#features-list)
   - [Controls](#controls)
-  - [Frequently Asked Questions](#Frequently-Asked-Questions)
+  - [Frequently Asked Questions](#frequently-asked-questions)
+  - [License](#license)
   - [Acknowledgments](#acknowledgments)
+
+## Prerequisites
+
+The only prerequisite is Go.  
+All other dependencies will be pulled with `go get`
 
 ## Installation and Usage
 
@@ -80,6 +87,9 @@ You probably shouldn't. This project is not very mature and was started so that 
 GopherJS compiles the Go runtime and all dependencies into pure Javascript.  
 Because of this, the output files can get pretty big.  
 If you use the `-m` flag on the GopherJS compiler and gzip the output, it helps a lot.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
