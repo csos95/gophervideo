@@ -6,7 +6,7 @@ A video player written with gopherjs.
   - [Installation and Usage](#installation-and-usage)
   - [Features/Todo List](#features-list)
   - [Controls](#controls)
-  - [Frequently Asked Questions](#Frequently-Asked-Questions<sup><sup><sup>that-no-one-has-actually-asked-yet</sup></sup></sup>)
+  - [Frequently Asked Questions](#Frequently-Asked-Questions)
   - [Acknowledgments](#acknowledgments)
 
 ## Installation and Usage
@@ -69,11 +69,11 @@ A video player written with gopherjs.
 | j | go backward 10 seconds |
 | l | go forward 10 seconds |
 
-## Frequently Asked Questions<sup><sup><sup>that no one has actually asked yet</sup></sup></sup>
+## Frequently Asked Questions
 
 ### Why should I use this?
 
-You probably shouldn't. This project is not very mature and was started so I could work with GopherJS in a project
+You probably shouldn't. This project is not very mature and was started so that I could work with GopherJS in a project.
 
 ### The Javascript file is massive!
 
