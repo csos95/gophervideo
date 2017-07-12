@@ -3,6 +3,8 @@ package gopherVideo
 import (
 	"fmt"
 
+	"github.com/gopherjs/gopherjs/js"
+
 	"honnef.co/go/js/dom"
 )
 
@@ -32,9 +34,19 @@ func (p *Player) setupHTML() {
 	bottomControls.SetClass("gopherVideo-bottom-controls")
 
 	// a button to play/pause the video
-	playpause := document.CreateElement("button").(*dom.HTMLButtonElement)
-	playpause.SetClass("gopherVideo-playpause")
-	playpause.SetTextContent("playpause")
+	object := js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "svg")
+	playpause := objectToBasicHTMLElement(object)
+	playpause.SetAttribute("xmlns", "http://www.w3.org/2000/svg")
+	playpause.SetAttribute("class", "gopherVideo-playpause")
+	playpause.SetAttribute("width", "20px")
+	playpause.SetAttribute("height", "20px")
+	playpause.SetAttribute("viewBox", "0 0 8 8")
+
+	object = js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "path")
+	playpausePath := objectToBasicHTMLElement(object)
+	playpausePath.SetAttribute("d", "M0 0v6l6-3-6-3z")
+	playpausePath.SetAttribute("transform", "translate(1 1)")
+	playpause.AppendChild(playpausePath)
 	bottomControls.AppendChild(playpause)
 
 	// the current playtime text
@@ -75,4 +87,8 @@ func (p *Player) setupHTML() {
 	p.TimeText = timeText
 	p.DurationText = durationText
 	p.FullscreenButton = fullscreen
+}
+
+func objectToBasicHTMLElement(object *js.Object) dom.Element {
+	return &dom.BasicHTMLElement{&dom.BasicElement{&dom.BasicNode{object}}}
 }

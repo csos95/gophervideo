@@ -20,7 +20,7 @@ type Player struct {
 	Container        *dom.HTMLDivElement
 	Video            *dom.HTMLVideoElement
 	Controls         *dom.HTMLDivElement
-	PlayPause        *dom.HTMLButtonElement
+	PlayPause        dom.Element
 	ProgressBar      *dom.HTMLInputElement
 	TimeText         *dom.HTMLPreElement
 	DurationText     *dom.HTMLPreElement

@@ -12,6 +12,10 @@ import (
 // Play the video
 func (p *Player) Play() {
 	p.Video.Play()
+	playpausePath := p.PlayPause.FirstChild().(dom.Element)
+	playpausePath.SetAttribute("d", "M0 0v6h2v-6h-2zm4 0v6h2v-6h-2z")
+	playpausePath.SetAttribute("transform", "translate(1 1)")
+
 	// if this if the first time the video has been played, duration text and progressbar size
 	if p.FirstPlay {
 		go func() {
@@ -44,6 +48,9 @@ func (p *Player) Play() {
 // Pause the video
 func (p *Player) Pause() {
 	p.Video.Pause()
+	playpausePath := p.PlayPause.FirstChild().(dom.Element)
+	playpausePath.SetAttribute("d", "M0 0v6l6-3-6-3z")
+	playpausePath.SetAttribute("transform", "translate(1 1)")
 }
 
 // TogglePlay toggles the play state of the video

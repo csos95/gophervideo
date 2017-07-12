@@ -41,12 +41,13 @@ func (p *Player) setupCSS() {
 		top: 10px;
 		left: 10px;
 		bottom: 10px;
+		fill: #fff;
 	}
 	.gopherVideo-time {
 		margin: auto;
 		position: absolute;
 		top: 10px;
-		left: 100px;
+		left: 40px;
 		bottom: 10px;
 		color: #fff;
 	}
@@ -54,9 +55,9 @@ func (p *Player) setupCSS() {
 		margin: auto;
 		position: absolute;
 		top: 10px;
-		left: 150px;
+		left: 90px;
 		bottom: 10px;
-		width: 310px;
+		width: 370px;
 	}
 	.gopherVideo-duration {
 		margin: auto;
