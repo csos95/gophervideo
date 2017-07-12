@@ -5,7 +5,7 @@ A video player written with GopherJS.
 
   - [Prerequisites](#prerequisites)
   - [Installation and Usage](#installation-and-usage)
-  - [Features/](#features-list)
+  - [Features](#features-list)
   - [Controls](#controls)
   - [Frequently Asked Questions](#frequently-asked-questions)
   - [License](#license)

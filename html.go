@@ -34,19 +34,10 @@ func (p *Player) setupHTML() {
 	bottomControls.SetClass("GopherVideo-bottom-controls")
 
 	// a button to play/pause the video
-	object := js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "svg")
-	playpause := objectToBasicHTMLElement(object)
-	playpause.SetAttribute("xmlns", "http://www.w3.org/2000/svg")
+	playpause := createSVG("M0 0v6l6-3-6-3z", "translate(1 1)", "0 0 8 8")
 	playpause.SetAttribute("class", "GopherVideo-playpause")
 	playpause.SetAttribute("width", "20px")
 	playpause.SetAttribute("height", "20px")
-	playpause.SetAttribute("viewBox", "0 0 8 8")
-
-	object = js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "path")
-	playpausePath := objectToBasicHTMLElement(object)
-	playpausePath.SetAttribute("d", "M0 0v6l6-3-6-3z")
-	playpausePath.SetAttribute("transform", "translate(1 1)")
-	playpause.AppendChild(playpausePath)
 	bottomControls.AppendChild(playpause)
 
 	// the current playtime text
@@ -71,19 +62,11 @@ func (p *Player) setupHTML() {
 	bottomControls.AppendChild(durationText)
 
 	// a button to enter fullscreen
-	object = js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "svg")
-	fullscreen := objectToBasicHTMLElement(object)
-	fullscreen.SetAttribute("xmlns", "http://www.w3.org/2000/svg")
-	fullscreen.SetAttribute("class", "GopherVideo-fullscreen")
-	fullscreen.SetAttribute("width", "20px")
-	fullscreen.SetAttribute("height", "20px")
-	fullscreen.SetAttribute("viewBox", "0 0 8 8")
-
-	object = js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "path")
-	fullscreenPath := objectToBasicHTMLElement(object)
-	fullscreenPath.SetAttribute("d", "M0 0v4l1.5-1.5 1.5 1.5 1-1-1.5-1.5 1.5-1.5h-4zm5 4l-1 1 1.5 1.5-1.5 1.5h4v-4l-1.5 1.5-1.5-1.5z")
-	fullscreen.AppendChild(fullscreenPath)
-	bottomControls.AppendChild(fullscreen)
+	fullscreenButton := createSVG("M0 0v4l1.5-1.5 1.5 1.5 1-1-1.5-1.5 1.5-1.5h-4zm5 4l-1 1 1.5 1.5-1.5 1.5h4v-4l-1.5 1.5-1.5-1.5z", "", "0 0 8 8")
+	fullscreenButton.SetAttribute("class", "GopherVideo-fullscreen")
+	fullscreenButton.SetAttribute("width", "20px")
+	fullscreenButton.SetAttribute("height", "20px")
+	bottomControls.AppendChild(fullscreenButton)
 
 	controls.AppendChild(bottomControls)
 	container.AppendChild(controls)
@@ -95,9 +78,24 @@ func (p *Player) setupHTML() {
 	p.ProgressBar = progressBar
 	p.TimeText = timeText
 	p.DurationText = durationText
-	p.FullscreenButton = fullscreen
+	p.FullscreenButton = fullscreenButton
 }
 
 func objectToBasicHTMLElement(object *js.Object) *dom.BasicHTMLElement {
 	return &dom.BasicHTMLElement{&dom.BasicElement{&dom.BasicNode{object}}}
+}
+
+func createSVG(d, transform, viewbox string) *dom.BasicHTMLElement {
+	object := js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "svg")
+	svg := objectToBasicHTMLElement(object)
+	svg.SetAttribute("xmlns", "http://www.w3.org/2000/svg")
+	svg.SetAttribute("viewBox", viewbox)
+
+	object = js.Global.Get("document").Call("createElementNS", "http://www.w3.org/2000/svg", "path")
+	path := objectToBasicHTMLElement(object)
+	path.SetAttribute("d", d)
+	path.SetAttribute("transform", transform)
+	svg.AppendChild(path)
+
+	return svg
 }
