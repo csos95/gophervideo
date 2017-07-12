@@ -38,26 +38,23 @@ func (p *Player) setupListeners() {
 
 	// fullscreenchange events to toggle the container style
 	document.AddEventListener("fullscreenchange", false, func(event dom.Event) {
-		fmt.Println("fullscreen change")
 		p.toggleFullscreenStyle()
 	})
 	document.AddEventListener("webkitfullscreenchange", false, func(event dom.Event) {
-		fmt.Println("fullscreen change")
 		p.toggleFullscreenStyle()
 	})
 	document.AddEventListener("mozfullscreenchange", false, func(event dom.Event) {
-		fmt.Println("fullscreen change")
 		p.toggleFullscreenStyle()
 	})
 	document.AddEventListener("MSFullscreenChange", false, func(event dom.Event) {
-		fmt.Println("fullscreen change")
 		p.toggleFullscreenStyle()
 	})
 
 	// keypress event listener for keybinds
 	document.AddEventListener("keypress", false, func(event dom.Event) {
 		key := event.(*dom.KeyboardEvent).Key
-		if _, ok := event.Target().(*dom.HTMLInputElement); ok {
+		if input, ok := event.Target().(*dom.HTMLInputElement); ok &&
+			input.Attributes()["type"] == "text" {
 			fmt.Println("target input")
 			return
 		}
