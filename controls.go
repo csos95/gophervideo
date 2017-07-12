@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"honnef.co/go/js/dom"
+
 	"github.com/gopherjs/gopherjs/js"
 )
 
@@ -13,10 +15,21 @@ func (p *Player) Play() {
 	// if this if the first time the video has been played, duration text and progressbar size
 	if p.FirstPlay {
 		go func() {
+			try := 0
 			// sleep to give to video a chance to start loading
 			for p.Duration == 0 && p.FirstPlay && !p.Removed {
+				try++
 				time.Sleep(500 * time.Millisecond)
 				p.Duration = p.Video.Get("duration").Int()
+				if try == 10 {
+					fmt.Println("trying to reload")
+					p.Video.RemoveChild(p.Video.FirstChild())
+					source := document.CreateElement("source").(*dom.HTMLSourceElement)
+					source.SetAttribute("src", p.URL)
+					p.Video.AppendChild(source)
+					p.Video.Play()
+					try = 0
+				}
 			}
 			p.DurationText.SetTextContent(p.timeFormat(p.Duration))
 			p.ProgressBar.SetAttribute("max", fmt.Sprintf("%d", p.Duration))
