@@ -38,10 +38,11 @@ func (p *Player) setupCSS() {
 	.gopherVideo-playpause {
 		margin: auto;
 		position: absolute;
-		top: 10px;
-		left: 10px;
-		bottom: 10px;
+		top: 0;
+		left: 0;
+		bottom: 0;
 		fill: #fff;
+		padding: 10px;
 	}
 	.gopherVideo-time {
 		margin: auto;
@@ -57,23 +58,24 @@ func (p *Player) setupCSS() {
 		top: 10px;
 		left: 90px;
 		bottom: 10px;
-		width: 370px;
+		width: 450px;
 	}
 	.gopherVideo-duration {
 		margin: auto;
 		position: absolute;
 		top: 10px;
-		right: 100px;
+		right: 40px;
 		bottom: 10px;
 		color: #fff;
 	}
 	.gopherVideo-fullscreen {
 		margin: auto;
 		position: absolute;
-		top: 10px;
-		right: 10px;
-		bottom: 10px;
+		top: 0;
+		right: 0;
+		bottom: 0;
 		fill: #fff;
+		padding: 10px;
 	}
 	`
 	style := js.Global.Get("document").Call("createElement", "style")
