@@ -3,6 +3,35 @@ A video player written with gopherjs.
 
 SVG icons provided by [Open Iconic](www.useiconic.com/open)
 
+## Installation and usage
+
+1. Install or update  
+	`go get -u github.com/csos95/gopherVideo`
+
+2. Write a GopherJS project that uses gopherVideo  
+	Simple example that adds a video to the page:
+	```Go
+	package main
+
+	import (
+		"github.com/csos95/gopherVideo"
+		"honnef.co/go/js/dom"
+	)
+
+	func main() {
+		// get the document and body elements
+		document := dom.GetWindow().Document()
+		body := document.DocumentElement().GetElementsByTagName("body")[0].(*dom.HTMLBodyElement)
+
+		// append a new gopherVideo player to the body
+		player := gopherVideo.NewPlayer(body, "http://example.com/video.mp4")
+	}
+	```
+3. Run `gopherjs build -m -o myscript.js` to compile a minified version
+4. Use the script in a html file  
+	`<script type="text/javascript" src="myscript.js"></script>`
+  
+
 ## Features/Todo List
 
 | Feature | Status | Notes |
@@ -33,3 +62,15 @@ SVG icons provided by [Open Iconic](www.useiconic.com/open)
 | k | play/pause |
 | j | go backward 10 seconds |
 | l | go forward 10 seconds |
+
+## Frequently Asked Questions<sup><sup><sup>that no one has actually asked yet</sup></sup></sup>
+
+### Why should I use this?
+
+You probably shouldn't. This project is not very mature and was started so I could work with GopherJS in a project
+
+### The Javascript file is massive!
+
+GopherJS compiles the Go runtime and all dependencies into pure Javascript.  
+Because of this, the output files can get pretty big.  
+If you use the `-m` flag on the GopherJS compiler and gzip the output, it helps a lot.
