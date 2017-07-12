@@ -6,6 +6,7 @@ A video player written with gopherjs.
   - [Installation and Usage](#installation-and-usage)
   - [Features/Todo List](#features-list)
   - [Controls](#controls)
+  - [Frequently Asked Questions](#Frequently-Asked-Questions<sup><sup><sup>that-no-one-has-actually-asked-yet</sup></sup></sup>)
   - [Acknowledgments](#acknowledgments)
 
 ## Installation and Usage
