@@ -2,6 +2,7 @@ package gopherVideo
 
 import (
 	"fmt"
+	"strconv"
 
 	"honnef.co/go/js/dom"
 )
@@ -25,9 +26,8 @@ func (p *Player) setupListeners() {
 	// seek through the video by dragging the progress bar
 	p.ProgressBar.AddEventListener("input", true, func(event dom.Event) {
 		event.PreventDefault()
-		currentTime := p.Video.Get("currentTime").Int()
-		p.Video.Set("currentTime", p.ProgressBar.Value)
-		p.TimeText.SetTextContent(p.timeFormat(currentTime))
+		seekTime, _ := strconv.Atoi(p.ProgressBar.Value)
+		p.Seek(seekTime)
 	})
 
 	// click the fullscreen button to enter/exit fullscreen
@@ -39,19 +39,19 @@ func (p *Player) setupListeners() {
 	// fullscreenchange events to toggle the container style
 	document.AddEventListener("fullscreenchange", false, func(event dom.Event) {
 		fmt.Println("fullscreen change")
-		p.ToggleFullscreenStyle()
+		p.toggleFullscreenStyle()
 	})
 	document.AddEventListener("webkitfullscreenchange", false, func(event dom.Event) {
 		fmt.Println("fullscreen change")
-		p.ToggleFullscreenStyle()
+		p.toggleFullscreenStyle()
 	})
 	document.AddEventListener("mozfullscreenchange", false, func(event dom.Event) {
 		fmt.Println("fullscreen change")
-		p.ToggleFullscreenStyle()
+		p.toggleFullscreenStyle()
 	})
 	document.AddEventListener("MSFullscreenChange", false, func(event dom.Event) {
 		fmt.Println("fullscreen change")
-		p.ToggleFullscreenStyle()
+		p.toggleFullscreenStyle()
 	})
 
 	// keypress event listener for keybinds

@@ -22,10 +22,9 @@ var (
 // add a gopher video player
 func addVideo(url string) {
 	if player != nil {
-		body.RemoveChild(player.Container)
+		player.Remove()
 	}
-	player = gopherVideo.NewPlayer(url)
-	body.AppendChild(player.Container)
+	player = gopherVideo.NewPlayer(body, url)
 	player.Play()
 }
 
@@ -42,6 +41,7 @@ func main() {
 	// instead of being hardcoded, an api could be called for available locations and those used
 	addGateway("http://127.0.0.1:8080/ipfs/", "localhost")
 	addGateway("https://ipfs.io/ipfs/", "ipfs.io")
+	addGateway("http://45.77.75.143:8080/ipfs/", "vultr")
 
 	// setup the funcmap
 	// accessible in js with funcmap.function()
