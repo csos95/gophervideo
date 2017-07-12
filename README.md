@@ -1,9 +1,14 @@
 # gopherVideo
 A video player written with gopherjs.
 
-SVG icons provided by [Open Iconic](www.useiconic.com/open)
+## Table of Contents
 
-## Installation and usage
+  - [Installation and Usage](#installation-and-usage)
+  - [Features/Todo List](#features/todo-list)
+  - [Controls](#controls)
+  - [Acknowledgments](#acknowledgments)
+
+## Installation and Usage
 
 1. Install or update  
 	`go get -u github.com/csos95/gopherVideo`
@@ -74,3 +79,7 @@ You probably shouldn't. This project is not very mature and was started so I cou
 GopherJS compiles the Go runtime and all dependencies into pure Javascript.  
 Because of this, the output files can get pretty big.  
 If you use the `-m` flag on the GopherJS compiler and gzip the output, it helps a lot.
+
+## Acknowledgments
+
+SVG icons for controls provided by [Open Iconic](www.useiconic.com/open)
