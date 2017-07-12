@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<style>
+	body {
+		font-family: Arial, Arial, Helvetica, sans-serif;
+	}
+	</style>
+</head>
+<body>
+
+	<h1>IPFS Video Player</h1>
+
+	<p><a href="https://github.com/csos95/gopherjs-video">Source Code</a></p>
+
+	<p>
+		By default, there are two gateways:<br>
+		- localhost - a local gateway running on localhost:8080<br>
+		- ipfs.io - the official ipfs gateway<br><br>
+		
+		To add a gateway, enter the gateway url/name and click 'Add Gateway'<br>
+		ex: http://localhost:8080/ipfs/ localhost
+	</p>
+
+	<form action="none">
+		<label for="gateway-url">Gateway URL</label>
+		<input id="gateway-url" type="text">
+		<label for="gateway-name">Gateway Name</label>
+		<input id="gateway-name" type="text">
+		<input type="button" value="Add Gateway" onclick="funcmap.addGateway()">
+	</form>
+
+	<p>Enter the hash of a video in the ipfs, select a gateway, and click 'Add Video'</p>
+
+	<p>By default, there are two gateways:<br>
+		- localhost - a local gateway running on localhost:8080<br>
+		- ipfs.io - the official ipfs gateway<br><br>
+
+		The localhost option will only be usable if you have a local ipfs node running.<br><br>
+
+		If the ipfs swarm the gateway is in does not contain the video, it will fail to load.<br>
+		If you have not setup a private ipfs swarm and added the video to it, you most likely want to select 'ipfs.io' as the gateway.</p>
+
+	<form action="none">
+		<label for="video-hash">Video Hash</label>
+		<input id="video-hash" type="text">
+		<select id="gateway">
+		</select>
+		<input type="button" value="Add Video" onclick="funcmap.addVideo()">
+	</form>
+
+	<script type="text/javascript" src="/gopherjs/gopherjs.js"></script>
+</body>
+</html>
