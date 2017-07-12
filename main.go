@@ -179,6 +179,14 @@ func (p *Player) Setup() {
 	// keypress event listener for keybinds
 	document.AddEventListener("keypress", false, func(event dom.Event) {
 		key := event.(*dom.KeyboardEvent).Key
+		if _, ok := event.Target().(*dom.HTMLInputElement); ok {
+			fmt.Println("target input")
+			return
+		}
+		if _, ok := event.Target().(*dom.HTMLTextAreaElement); ok {
+			fmt.Println("target textarea")
+			return
+		}
 		fmt.Printf("|%s|\n", key)
 		switch key {
 		case " ":
