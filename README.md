@@ -4,7 +4,7 @@ A video player written with gopherjs.
 ## Table of Contents
 
   - [Installation and Usage](#installation-and-usage)
-  - [Features/Todo List](#features/todo-list)
+  - [Features/Todo List](#features-list)
   - [Controls](#controls)
   - [Acknowledgments](#acknowledgments)
 
@@ -37,7 +37,7 @@ A video player written with gopherjs.
 	`<script type="text/javascript" src="myscript.js"></script>`
   
 
-## Features/Todo List
+## Features List
 
 | Feature | Status | Notes |
 |-|-|-|
