@@ -1,4 +1,4 @@
-# gopherVideo
+# GopherVideo
 A video player written with gopherjs.
 
 ## Table of Contents
@@ -12,15 +12,15 @@ A video player written with gopherjs.
 ## Installation and Usage
 
 1. Install or update  
-	`go get -u github.com/csos95/gopherVideo`
+	`go get -u github.com/csos95/gophervideo`
 
-2. Write a GopherJS project that uses gopherVideo  
+2. Write a GopherJS project that uses GopherVideo  
 	Simple example that adds a video to the page:
 	```Go
 	package main
 
 	import (
-		"github.com/csos95/gopherVideo"
+		"github.com/csos95/gophervideo"
 		"honnef.co/go/js/dom"
 	)
 
@@ -30,7 +30,7 @@ A video player written with gopherjs.
 		body := document.DocumentElement().GetElementsByTagName("body")[0].(*dom.HTMLBodyElement)
 
 		// append a new gopherVideo player to the body
-		player := gopherVideo.NewPlayer(body, "http://example.com/video.mp4")
+		player := gophervideo.NewPlayer(body, "http://example.com/video.mp4")
 	}
 	```
 3. Run `gopherjs build -m -o myscript.js` to compile a minified version

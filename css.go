@@ -1,21 +1,21 @@
-package gopherVideo
+package gophervideo
 
 import "github.com/gopherjs/gopherjs/js"
 
-// set the css for the gopherVideo player
+// set the css for the GopherVideo player
 func (p *Player) setupCSS() {
 	css := `
-	.gopherVideo {
+	.GopherVideo {
 		background-color: #000;
 		position: relative;
 		width: 640px;
 	}
-	.gopherVideo-video {
+	.GopherVideo-video {
 		display: flex;
 		width: 100%;
 		height: 100%;
 	}
-	.gopherVideo-controls {
+	.GopherVideo-controls {
 		position: absolute;
 		display: none;
 		top: 0;
@@ -24,10 +24,10 @@ func (p *Player) setupCSS() {
 		bottom: 0;
 		background-size: contain;
 	}
-	.gopherVideo:hover > .gopherVideo-controls {
+	.GopherVideo:hover > .GopherVideo-controls {
 		display: inline-block;
 	}
-	.gopherVideo-bottom-controls {
+	.GopherVideo-bottom-controls {
 		position: absolute;
 		height: 40px;
 		left: 0;
@@ -35,7 +35,7 @@ func (p *Player) setupCSS() {
 		bottom: 0;
 		background-color: rgba(0,0,0,0.5);
 	}
-	.gopherVideo-playpause {
+	.GopherVideo-playpause {
 		margin: auto;
 		position: absolute;
 		top: 0;
@@ -44,7 +44,7 @@ func (p *Player) setupCSS() {
 		fill: #fff;
 		padding: 10px;
 	}
-	.gopherVideo-time {
+	.GopherVideo-time {
 		margin: auto;
 		position: absolute;
 		top: 10px;
@@ -52,7 +52,7 @@ func (p *Player) setupCSS() {
 		bottom: 10px;
 		color: #fff;
 	}
-	.gopherVideo-progressbar {
+	.GopherVideo-progressbar {
 		margin: auto;
 		position: absolute;
 		top: 10px;
@@ -60,7 +60,7 @@ func (p *Player) setupCSS() {
 		bottom: 10px;
 		width: 450px;
 	}
-	.gopherVideo-duration {
+	.GopherVideo-duration {
 		margin: auto;
 		position: absolute;
 		top: 10px;
@@ -68,7 +68,7 @@ func (p *Player) setupCSS() {
 		bottom: 10px;
 		color: #fff;
 	}
-	.gopherVideo-fullscreen {
+	.GopherVideo-fullscreen {
 		margin: auto;
 		position: absolute;
 		top: 0;

@@ -1,4 +1,4 @@
-package gopherVideo
+package gophervideo
 
 import (
 	"fmt"

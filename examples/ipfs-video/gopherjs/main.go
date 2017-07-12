@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/csos95/gopherVideo"
+	"github.com/csos95/gophervideo"
 	"github.com/gopherjs/gopherjs/js"
 	"honnef.co/go/js/dom"
 )
@@ -16,7 +16,7 @@ var (
 	gatewayName = document.GetElementByID("gateway-name").(*dom.HTMLInputElement)
 	videoHash   = document.GetElementByID("video-hash").(*dom.HTMLInputElement)
 	gateways    = document.GetElementByID("gateway").(*dom.HTMLSelectElement)
-	player      *gopherVideo.Player
+	player      *gophervideo.Player
 )
 
 // add a gopher video player
@@ -24,7 +24,7 @@ func addVideo(url string) {
 	if player != nil {
 		player.Remove()
 	}
-	player = gopherVideo.NewPlayer(body, url)
+	player = gophervideo.NewPlayer(body, url)
 	player.Play()
 }
 
