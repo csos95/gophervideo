@@ -21,7 +21,7 @@ func (p *Player) Play() {
 				try++
 				time.Sleep(500 * time.Millisecond)
 				p.Duration = p.Video.Get("duration").Int()
-				if try == 10 {
+				if try == 20 {
 					fmt.Println("trying to reload")
 					p.Video.RemoveChild(p.Video.FirstChild())
 					source := document.CreateElement("source").(*dom.HTMLSourceElement)
