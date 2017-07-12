@@ -14,14 +14,12 @@
 
 	<p><a href="https://github.com/csos95/gopherVideo/tree/master/examples/ipfs-video">Source Code</a></p>
 
-	<p>
-		By default, there are two gateways:<br>
+	<p>By default, there are two gateways:<br>
 		- localhost - a local gateway running on localhost:8080<br>
 		- ipfs.io - the official ipfs gateway<br><br>
 		
 		To add a gateway, enter the gateway url/name and click 'Add Gateway'<br>
-		ex: http://localhost:8080/ipfs/ localhost
-	</p>
+		ex: http://localhost:8080/ipfs/ localhost</p>
 
 	<form action="none">
 		<label for="gateway-url">Gateway URL</label>
@@ -49,6 +47,10 @@
 		</select>
 		<input type="button" value="Add Video" onclick="funcmap.addVideo()">
 	</form>
+
+	<p>Controls:<br>
+		f - enter/exit fullscreen<br>
+		space - play/pause the video</p>
 
 	<script type="text/javascript" src="/gopherjs/gopherjs.js"></script>
 </body>
