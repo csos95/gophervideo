@@ -30,6 +30,7 @@ type Player struct {
 	FullscreenButton *dom.BasicHTMLElement
 	Duration         int
 	ProgressBarWidth int
+	TimeTextWidth    int
 	Fullscreen       bool
 	FirstPlay        bool
 	Removed          bool

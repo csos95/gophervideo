@@ -132,13 +132,13 @@ func (p *Player) setupCSS() {
 func (p *Player) styleProgressBar() {
 	p.Controls.SetAttribute("style", "display:inline-block;")
 	fmt.Printf("%f\n", p.DurationText.OffsetWidth())
-	timeWidth := int(p.DurationText.OffsetWidth())
+	p.TimeTextWidth = int(p.DurationText.OffsetWidth())
 
 	// left is the distance from the left side, right is from the right side
 	// the first values are the sizes hardcoded in css, second is the width of the time text elements,
 	// and third is the space to put between the progress bar and the other elements
-	left := 40 + timeWidth + 10
-	right := 70 + timeWidth + 10
+	left := 40 + p.TimeTextWidth + 10
+	right := 70 + p.TimeTextWidth + 10
 	// width is how wide the progress bar needs to be to fill the space
 	p.ProgressBarWidth = int(p.Video.OffsetWidth()) - left - right
 

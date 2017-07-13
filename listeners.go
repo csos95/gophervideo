@@ -21,9 +21,7 @@ func (p *Player) setupListeners() {
 		currentTime := p.Video.Get("currentTime").Int()
 		p.TimeText.SetTextContent(p.timeFormat(currentTime))
 
-		timeWidth := int(p.DurationText.OffsetWidth())
-		left := 40 + timeWidth + 10
-
+		left := 40 + p.TimeTextWidth + 10
 		x := currentTime * p.ProgressBarWidth / p.Duration
 		p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("left:%dpx;width:%dpx;", left, x))
 		fmt.Println(fmt.Sprintf("width:%dpx;", x))
