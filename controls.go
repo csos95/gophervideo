@@ -134,7 +134,6 @@ func (p *Player) setupControlsStyle() {
 		}
 	}
 	p.DurationText.SetTextContent(p.timeFormat(p.Duration))
-	p.ProgressBar.SetAttribute("max", fmt.Sprintf("%d", p.Duration))
 
 	p.styleProgressBar()
 

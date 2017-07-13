@@ -21,13 +21,15 @@ type Player struct {
 	Video            *dom.HTMLVideoElement
 	Controls         *dom.HTMLDivElement
 	PlayPause        *dom.BasicHTMLElement
-	ProgressBar      *dom.HTMLInputElement
+	ProgressBarBack  *dom.HTMLDivElement
+	ProgressBarFront *dom.HTMLDivElement
 	TimeText         *dom.HTMLSpanElement
 	DurationText     *dom.HTMLSpanElement
 	VolumeIcon       *dom.BasicHTMLElement
 	VolumeBar        *dom.HTMLInputElement
 	FullscreenButton *dom.BasicHTMLElement
 	Duration         int
+	ProgressBarWidth int
 	Fullscreen       bool
 	FirstPlay        bool
 	Removed          bool

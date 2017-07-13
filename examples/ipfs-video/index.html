@@ -6,11 +6,21 @@
 	body {
 		font-family: Arial, Arial, Helvetica, sans-serif;
 	}
+	#progress-back {
+		background-color: #666;
+		height: 10px;
+		width: 200px;
+	}
+	#progress-front {
+		background-color: #ccc;
+		height: 10px;
+		width: 50px;
+	}
 	</style>
 </head>
 <body>
 
-	<!-- <h1>IPFS Video Player</h1>
+	<h1>IPFS Video Player</h1>
 
 	<p><a href="https://github.com/csos95/gophervideo/tree/master/examples/ipfs-video">Source Code</a></p>
 
@@ -21,7 +31,7 @@
 		The localhost option will only be usable if you have a local ipfs node running.<br><br>
 		
 		To add a gateway, enter the gateway url/name and click 'Add Gateway'<br>
-		ex: http://localhost:8080/ipfs/ localhost</p> -->
+		ex: http://localhost:8080/ipfs/ localhost</p>
 
 	<form action="none">
 		<label for="gateway-url">Gateway URL</label>
@@ -31,10 +41,10 @@
 		<input type="button" value="Add Gateway" onclick="funcmap.addGateway()">
 	</form>
 
-	<!-- <p>Enter the hash of a video in the ipfs, select a gateway, and click 'Add Video'<br><br>
+	<p>Enter the hash of a video in the ipfs, select a gateway, and click 'Add Video'<br><br>
 	
 		If the ipfs swarm the gateway is in does not contain the video, it will fail to load.<br>
-		If you have not setup a private ipfs swarm and added the video to it, you most likely want to select 'ipfs.io' as the gateway.</p> -->
+		If you have not setup a private ipfs swarm and added the video to it, you most likely want to select 'ipfs.io' as the gateway.</p>
 
 	<form action="none">
 		<label for="video-hash">Video Hash</label>
@@ -44,13 +54,49 @@
 		<input type="button" value="Add Video" onclick="funcmap.addVideo()">
 	</form>
 
-	<!-- <p>Controls:<br>
+	<p>Controls:<br>
 		f - enter/exit fullscreen<br>
 		space - play/pause<br>
 		k - play/pause<br>
 		j - go backward 10 seconds<br>
-		l - go forward 10 seconds</p> -->
+		l - go forward 10 seconds</p>
 
-	<script type="text/javascript" src="/gopherjs/gopherjs.js"></script>
+	<div id="progress-back">
+		<div id="progress-front"></div>
+	</div>
+
+	 <script type="text/javascript" src="/gopherjs/gopherjs.js"></script> 
+	<script>
+		let back = document.getElementById('progress-back');
+		let front = document.getElementById('progress-front');
+		let seeking = false;
+		let maxTime = 360; // this would be the length of the video in seconds
+		let maxWidth = back.clientWidth;
+
+		back.addEventListener('click', function(e) {
+			let x = e.pageX - back.offsetLeft;
+			let y = e.pageY - back.offsetTop;
+			front.setAttribute('style', 'width:' + x + 'px;');
+			currentTime = x * maxTime / maxWidth;
+			console.log(currentTime);
+		})
+
+		back.addEventListener('mousemove', function(e) {
+			if (seeking) {
+				let x = e.pageX - back.offsetLeft;
+				let y = e.pageY - back.offsetTop;
+				front.setAttribute('style', 'width:' + x + 'px;');
+				currentTime = x * maxTime / maxWidth;
+				console.log(currentTime);
+			}
+		})
+
+		back.addEventListener('mousedown', function(e) {
+			seeking = true;
+		})
+		document.addEventListener('mouseup', function(e) {
+			seeking = false;
+		})
+	</script>
 </body>
 </html>

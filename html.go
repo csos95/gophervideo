@@ -46,14 +46,15 @@ func (p *Player) setupHTML() {
 	timeText.SetTextContent("0:00")
 	bottomControls.AppendChild(timeText)
 
-	// the progress bar for the video
-	progressBar := document.CreateElement("input").(*dom.HTMLInputElement)
-	progressBar.SetClass("GopherVideo-progressbar")
-	progressBar.SetAttribute("type", "range")
-	progressBar.SetAttribute("min", "0")
-	progressBar.SetAttribute("max", "1")
-	progressBar.Value = "0"
-	bottomControls.AppendChild(progressBar)
+	// the background of the progress bar
+	pbb := document.CreateElement("div").(*dom.HTMLDivElement)
+	pbb.SetClass("GopherVideo-progressbar-back")
+	bottomControls.AppendChild(pbb)
+
+	// the foreground of the progress bar
+	pbf := document.CreateElement("div").(*dom.HTMLDivElement)
+	pbf.SetClass("GopherVideo-progressbar-front")
+	bottomControls.AppendChild(pbf)
 
 	// the video duration text
 	durationText := document.CreateElement("span").(*dom.HTMLSpanElement)
@@ -92,7 +93,8 @@ func (p *Player) setupHTML() {
 	p.Video = video
 	p.Controls = controls
 	p.PlayPause = playpause
-	p.ProgressBar = progressBar
+	p.ProgressBarBack = pbb
+	p.ProgressBarFront = pbf
 	p.TimeText = timeText
 	p.DurationText = durationText
 	p.VolumeIcon = volumeIcon

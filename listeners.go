@@ -19,16 +19,40 @@ func (p *Player) setupListeners() {
 	p.Video.AddEventListener("timeupdate", false, func(event dom.Event) {
 		event.PreventDefault()
 		currentTime := p.Video.Get("currentTime").Int()
-		p.ProgressBar.Value = fmt.Sprintf("%d", currentTime)
 		p.TimeText.SetTextContent(p.timeFormat(currentTime))
+
+		timeWidth := int(p.DurationText.OffsetWidth())
+		left := 40 + timeWidth + 10
+
+		x := currentTime * p.ProgressBarWidth / p.Duration
+		p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("left:%dpx;width:%dpx;", left, x))
+		fmt.Println(fmt.Sprintf("width:%dpx;", x))
 	})
 
 	// seek through the video by dragging the progress bar
-	p.ProgressBar.AddEventListener("input", true, func(event dom.Event) {
-		event.PreventDefault()
-		seekTime, _ := strconv.Atoi(p.ProgressBar.Value)
-		p.Seek(seekTime)
-	})
+	// p.ProgressBarBack.AddEventListener("input", true, func(event dom.Event) {
+	// 	event.PreventDefault()
+	// 	seekTime, _ := strconv.Atoi(p.ProgressBar.Value)
+	// 	p.Seek(seekTime)
+	// })
+
+	// back.addEventListener('click', function(e) {
+	// 		let x = e.pageX - back.offsetLeft;
+	// 	let y = e.pageY - back.offsetTop;
+	// 	front.setAttribute('style', 'width:' + x + 'px;');
+	// 	currentTime = x * maxTime / maxWidth;
+	// 	console.log(currentTime);
+	// })
+
+	// back.addEventListener('mousemove', function(e) {
+	// 	if (seeking) {
+	// 		let x = e.pageX - back.offsetLeft;
+	// 		let y = e.pageY - back.offsetTop;
+	// 		front.setAttribute('style', 'width:' + x + 'px;');
+	// 		currentTime = x * maxTime / maxWidth;
+	// 		console.log(currentTime);
+	// 	}
+	// })
 
 	// change the volume dragging the volume bar
 	p.VolumeBar.AddEventListener("input", true, func(event dom.Event) {
