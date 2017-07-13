@@ -74,6 +74,7 @@ func (p *Player) setupHTML() {
 	volumeBar.SetAttribute("type", "range")
 	volumeBar.SetAttribute("min", "0")
 	volumeBar.SetAttribute("max", "100")
+	volumeBar.SetAttribute("orient", "vertical")
 	volumeBar.Value = "70"
 	bottomControls.AppendChild(volumeBar)
 
