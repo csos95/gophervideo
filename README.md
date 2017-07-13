@@ -51,7 +51,7 @@ All other dependencies will be pulled with `go get`
 |-|-|-|
 | play/pause | done |
 | fullscreen | done |
-| time/duration text | working, not decorated |
+| time/duration text | working, not fully decorated | right now the current time texts shifts as it gets farther in the video |
 | progress bar | working, not decorated |
 | volume bar | working, not fully decorated | the volume icon changes based on the volume. The bar itself is undecorated |
 | show controls on hover | done |
@@ -62,7 +62,7 @@ All other dependencies will be pulled with `go get`
 | playback speed | not started |
 | buffering animation | not started |
 | show buffered data on progress bar | not started | will do when decorating the progress bar |
-| resize elements as needed | not started | right now, this means resize the progress bar to fill the space in fullscreen |
+| resize elements as needed | done | right now the progress bar is the only thing that needs to be resized |
 | show time on hover over progress bar | not started |
 | click in window to play/pause | not started |
 | double click in window to enter/exit fullscreen | not started |

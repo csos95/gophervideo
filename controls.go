@@ -17,30 +17,7 @@ func (p *Player) Play() {
 
 	// if this if the first time the video has been played, duration text and progressbar size
 	if p.FirstPlay {
-		go func() {
-			try := 0
-			// sleep to give to video a chance to start loading
-			for p.Duration == 0 && p.FirstPlay && !p.Removed {
-				try++
-				time.Sleep(500 * time.Millisecond)
-				p.Duration = p.Video.Get("duration").Int()
-				if try == 20 {
-					fmt.Println("trying to reload")
-					p.Video.RemoveChild(p.Video.FirstChild())
-					source := document.CreateElement("source").(*dom.HTMLSourceElement)
-					source.SetAttribute("src", p.URL)
-					p.Video.AppendChild(source)
-					p.Video.Play()
-					try = 0
-				}
-			}
-			p.DurationText.SetTextContent(p.timeFormat(p.Duration))
-			p.ProgressBar.SetAttribute("max", fmt.Sprintf("%d", p.Duration))
-			p.Controls.SetAttribute("style", "display:inline-block;")
-			fmt.Printf("%f\n", p.DurationText.OffsetWidth())
-			p.Controls.SetAttribute("style", "")
-			p.FirstPlay = false
-		}()
+		go p.setupControlsStyle()
 	}
 }
 
@@ -135,5 +112,31 @@ func (p *Player) toggleFullscreenStyle() {
 		fullscreenPath := p.FullscreenButton.FirstChild().(dom.Element)
 		fullscreenPath.SetAttribute("d", "M1 0l-1 1 1.5 1.5-1.5 1.5h4v-4l-1.5 1.5-1.5-1.5zm3 4v4l1.5-1.5 1.5 1.5 1-1-1.5-1.5 1.5-1.5h-4z")
 	}
+	p.styleProgressBar()
 	p.Fullscreen = !p.Fullscreen
+}
+
+func (p *Player) setupControlsStyle() {
+	try := 0
+	// sleep to give to video a chance to start loading
+	for p.Duration == 0 && p.FirstPlay && !p.Removed {
+		try++
+		time.Sleep(500 * time.Millisecond)
+		p.Duration = p.Video.Get("duration").Int()
+		if try == 20 {
+			fmt.Println("trying to reload")
+			p.Video.RemoveChild(p.Video.FirstChild())
+			source := document.CreateElement("source").(*dom.HTMLSourceElement)
+			source.SetAttribute("src", p.URL)
+			p.Video.AppendChild(source)
+			p.Video.Play()
+			try = 0
+		}
+	}
+	p.DurationText.SetTextContent(p.timeFormat(p.Duration))
+	p.ProgressBar.SetAttribute("max", fmt.Sprintf("%d", p.Duration))
+
+	p.styleProgressBar()
+
+	p.FirstPlay = false
 }

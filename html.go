@@ -41,7 +41,7 @@ func (p *Player) setupHTML() {
 	bottomControls.AppendChild(playpause)
 
 	// the current playtime text
-	timeText := document.CreateElement("pre").(*dom.HTMLPreElement)
+	timeText := document.CreateElement("span").(*dom.HTMLSpanElement)
 	timeText.SetClass("GopherVideo-time")
 	timeText.SetTextContent("0:00")
 	bottomControls.AppendChild(timeText)
@@ -56,7 +56,7 @@ func (p *Player) setupHTML() {
 	bottomControls.AppendChild(progressBar)
 
 	// the video duration text
-	durationText := document.CreateElement("pre").(*dom.HTMLPreElement)
+	durationText := document.CreateElement("span").(*dom.HTMLSpanElement)
 	durationText.SetClass("GopherVideo-duration")
 	durationText.SetTextContent("0:00")
 	bottomControls.AppendChild(durationText)

@@ -1,6 +1,10 @@
 package gophervideo
 
-import "github.com/gopherjs/gopherjs/js"
+import (
+	"fmt"
+
+	"github.com/gopherjs/gopherjs/js"
+)
 
 // set the css for the GopherVideo player
 func (p *Player) setupCSS() {
@@ -46,8 +50,9 @@ func (p *Player) setupCSS() {
 	.GopherVideo-time {
 		margin: auto;
 		position: absolute;
+		font-size: 20px;
 		left: 40px;
-		bottom: 10px;
+		bottom: 8px;
 		color: #fff;
 	}
 	.GopherVideo-progressbar {
@@ -60,8 +65,9 @@ func (p *Player) setupCSS() {
 	.GopherVideo-duration {
 		margin: auto;
 		position: absolute;
+		font-size: 20px;
 		right: 70px;
-		bottom: 10px;
+		bottom: 8px;
 		color: #fff;
 	}
 	.GopherVideo-volume {
@@ -103,4 +109,22 @@ func (p *Player) setupCSS() {
 	style.Set("innerHTML", css)
 	// insert style of tooltip at the end of head element
 	js.Global.Get("document").Call("getElementsByTagName", "head").Call("item", 0).Call("appendChild", style)
+}
+
+func (p *Player) styleProgressBar() {
+	p.Controls.SetAttribute("style", "display:inline-block;")
+	fmt.Printf("%f\n", p.DurationText.OffsetWidth())
+	timeWidth := p.DurationText.OffsetWidth()
+
+	// left is the distance from the left side, right is from the right side
+	// the first values are the sizes hardcoded in css, second is the width of the time text elements,
+	// and third is the space to put between the progress bar and the other elements
+	left := 40 + timeWidth + 10
+	right := 70 + timeWidth + 10
+	// width is how wide the progress bar needs to be to fill the space
+	width := p.Video.OffsetWidth() - left - right
+
+	p.ProgressBar.SetAttribute("style", fmt.Sprintf("left:%fpx;width:%fpx;", left, width))
+
+	p.Controls.SetAttribute("style", "")
 }

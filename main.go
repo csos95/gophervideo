@@ -22,8 +22,8 @@ type Player struct {
 	Controls         *dom.HTMLDivElement
 	PlayPause        *dom.BasicHTMLElement
 	ProgressBar      *dom.HTMLInputElement
-	TimeText         *dom.HTMLPreElement
-	DurationText     *dom.HTMLPreElement
+	TimeText         *dom.HTMLSpanElement
+	DurationText     *dom.HTMLSpanElement
 	VolumeIcon       *dom.BasicHTMLElement
 	VolumeBar        *dom.HTMLInputElement
 	FullscreenButton *dom.BasicHTMLElement
