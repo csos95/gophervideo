@@ -41,6 +41,7 @@ func (p *Player) TogglePlay() {
 func (p *Player) Seek(seekTime int) {
 	p.Video.Set("currentTime", seekTime)
 	p.TimeText.SetTextContent(p.timeFormat(seekTime))
+	p.progressBarUpdate()
 }
 
 // SeekOffset seeks by an offset. a positive offset seeks forward, a negative offset seeks backward

@@ -52,7 +52,7 @@ All other dependencies will be pulled with `go get`
 | play/pause | done |
 | fullscreen | done |
 | time/duration text | working, not fully decorated | right now the current time texts shifts as it gets farther in the video |
-| progress bar | working, not decorated |
+| progress bar | done |
 | volume bar | working, not fully decorated | the volume icon changes based on the volume. The bar itself is undecorated |
 | show controls on hover | done |
 | keybinds | done | see [Controls](#controls) |

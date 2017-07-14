@@ -149,3 +149,12 @@ func (p *Player) styleProgressBar() {
 
 	p.Controls.SetAttribute("style", "")
 }
+
+func (p *Player) progressBarUpdate() {
+	currentTime := p.Video.Get("currentTime").Int()
+
+	if p.Duration != 0 {
+		x := currentTime * p.ProgressBarWidth / p.Duration
+		p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("width:%dpx;", x))
+	}
+}

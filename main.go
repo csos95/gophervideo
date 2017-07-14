@@ -23,6 +23,7 @@ type Player struct {
 	Fullscreen       bool
 	FirstPlay        bool
 	Removed          bool
+	Seeking          bool
 
 	// player elements
 	Parent           dom.HTMLElement
@@ -43,6 +44,8 @@ type Player struct {
 	videoTimeUpdateListener     func(*js.Object)
 	ProgressBarClickListener    func(*js.Object)
 	ProgressBarDragListener     func(*js.Object)
+	ProgressBarDownListener     func(*js.Object)
+	ProgressBarUpListener       func(*js.Object)
 	volumeBarListener           func(*js.Object)
 	fullscreenButtonListener    func(*js.Object)
 	fullscreenListener          func(*js.Object)
@@ -63,6 +66,7 @@ func NewPlayer(parent dom.HTMLElement, url string) *Player {
 		Fullscreen: false,
 		FirstPlay:  true,
 		Removed:    false,
+		Seeking:    false,
 	}
 
 	if !cssSet {
@@ -81,12 +85,16 @@ func (p *Player) Remove() {
 	// remove all listeners
 	p.PlayPause.RemoveEventListener("click", true, p.playpauseListener)
 	p.Video.RemoveEventListener("timeupdate", false, p.videoTimeUpdateListener)
+	p.Video.RemoveEventListener("click", false, p.ProgressBarClickListener)
+	p.Video.RemoveEventListener("mousemove", false, p.ProgressBarDragListener)
+	p.Video.RemoveEventListener("mousedown", false, p.ProgressBarDownListener)
+	p.Video.RemoveEventListener("mouseup", false, p.ProgressBarDownListener)
 	p.VolumeBar.RemoveEventListener("input", true, p.volumeBarListener)
 	p.FullscreenButton.RemoveEventListener("click", true, p.fullscreenButtonListener)
 	document.RemoveEventListener("fullscreenchange", false, p.fullscreenListener)
-	document.RemoveEventListener("webkitfullscreenchange", false, p.fullscreenListener)
-	document.RemoveEventListener("mozfullscreenchange", false, p.fullscreenListener)
-	document.RemoveEventListener("MSFullscreenChange", false, p.fullscreenListener)
+	document.RemoveEventListener("webkitfullscreenchange", false, p.webkitFullscreenListener)
+	document.RemoveEventListener("mozfullscreenchange", false, p.mozillaFullscreenListener)
+	document.RemoveEventListener("MSFullscreenChange", false, p.microsoftFullscreenListener)
 	document.RemoveEventListener("keypress", false, p.keyPressListener)
 
 	p.Pause()

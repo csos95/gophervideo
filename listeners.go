@@ -11,13 +11,11 @@ import (
 func (p *Player) setupListeners() {
 	// listener to play/pause the video
 	p.playpauseListener = p.PlayPause.AddEventListener("click", false, func(event dom.Event) {
-		event.PreventDefault()
 		p.TogglePlay()
 	})
 
 	// listener to update the progress bar and time text
 	p.videoTimeUpdateListener = p.Video.AddEventListener("timeupdate", false, func(event dom.Event) {
-		event.PreventDefault()
 		currentTime := p.Video.Get("currentTime").Int()
 		p.TimeText.SetTextContent(p.timeFormat(currentTime))
 
@@ -42,15 +40,33 @@ func (p *Player) setupListeners() {
 	})
 
 	// seek through the video by dragging the progress bar
-	// p.ProgressBarBack.AddEventListener("input", true, func(event dom.Event) {
-	// 	event.PreventDefault()
-	// 	seekTime, _ := strconv.Atoi(p.ProgressBar.Value)
-	// 	p.Seek(seekTime)
-	// })
+	p.ProgressBarDragListener = p.ProgressBarBack.AddEventListener("mousemove", false, func(event dom.Event) {
+		if p.Seeking {
+			pageX := event.Underlying().Get("pageX").Int()
+			offsetX := p.ProgressBarBack.Get("offsetLeft").Int()
+			var containerX int
+			if !p.Fullscreen {
+				containerX = p.Container.Get("offsetLeft").Int()
+			}
+			x := pageX - containerX - offsetX
+
+			newTime := x * p.Duration / p.ProgressBarWidth
+			p.Seek(newTime)
+		}
+	})
+
+	// start seeking on mouse down on the back
+	p.ProgressBarDownListener = p.ProgressBarBack.AddEventListener("mousedown", false, func(event dom.Event) {
+		p.Seeking = true
+	})
+
+	// stop seeking on mouse up on the document
+	p.ProgressBarUpListener = document.AddEventListener("mouseup", false, func(event dom.Event) {
+		p.Seeking = false
+	})
 
 	// change the volume dragging the volume bar
 	p.volumeBarListener = p.VolumeBar.AddEventListener("input", false, func(event dom.Event) {
-		event.PreventDefault()
 		volume, _ := strconv.Atoi(p.VolumeBar.Value)
 		fmt.Println(volume)
 		p.ChangeVolume(volume)
@@ -58,7 +74,6 @@ func (p *Player) setupListeners() {
 
 	// click the fullscreen button to enter/exit fullscreen
 	p.fullscreenButtonListener = p.FullscreenButton.AddEventListener("click", false, func(event dom.Event) {
-		event.PreventDefault()
 		p.ToggleFullscreenState()
 	})
 
