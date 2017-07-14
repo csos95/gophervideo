@@ -9,8 +9,25 @@ import (
 
 // Setup the listeners and controls for the video player
 func (p *Player) setupListeners() {
+	// p.Container.AddEventListener("mouseenter", false, func(event dom.Event) {
+	// 	p.MouseInContainer = true
+	// })
+
+	// p.Container.AddEventListener("mouseleave", false, func(event dom.Event) {
+	// 	p.MouseInContainer = false
+	// })
+
+	// p.Container.AddEventListener("mousemove", false, func(event dom.Event) {
+	// 	fmt.Println("moved")
+	// 	p.MouseMoved = true
+	// })
+
 	// listener to play/pause the video
 	p.playpauseListener = p.PlayPause.AddEventListener("click", false, func(event dom.Event) {
+		p.TogglePlay()
+	})
+
+	p.playpauseMouseListener = p.Controls.AddEventListener("click", false, func(event dom.Event) {
 		p.TogglePlay()
 	})
 
@@ -23,6 +40,24 @@ func (p *Player) setupListeners() {
 			x := currentTime * p.ProgressBarWidth / p.Duration
 			p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("width:%dpx;", x))
 		}
+
+		// p.SecondsSinceMove++
+		// if p.MouseMoved {
+		// 	if p.SecondsSinceMove > 5 {
+		// 		p.SecondsSinceMove = 5
+		// 	} else {
+		// 		fmt.Println("reset")
+		// 		p.SecondsSinceMove = 0
+		// 	}
+		// 	p.MouseMoved = false
+		// }
+
+		// if p.SecondsSinceMove >= 5 {
+		// 	fmt.Println("controls hidden")
+		// 	p.Controls.SetAttribute("style", "display:none;")
+		// } else {
+		// 	p.Controls.SetAttribute("style", "display:inline-block;")
+		// }
 	})
 
 	// seek to the position clicked on (when seeking forward, the click event goes to the back div)
@@ -74,6 +109,10 @@ func (p *Player) setupListeners() {
 
 	// click the fullscreen button to enter/exit fullscreen
 	p.fullscreenButtonListener = p.FullscreenButton.AddEventListener("click", false, func(event dom.Event) {
+		p.ToggleFullscreenState()
+	})
+
+	p.fullscreenMouseListener = p.Controls.AddEventListener("dblclick", false, func(event dom.Event) {
 		p.ToggleFullscreenState()
 	})
 

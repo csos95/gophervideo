@@ -24,6 +24,9 @@ type Player struct {
 	FirstPlay        bool
 	Removed          bool
 	Seeking          bool
+	MouseInContainer bool
+	MouseMoved       bool
+	SecondsSinceMove int
 
 	// player elements
 	Parent           dom.HTMLElement
@@ -41,6 +44,7 @@ type Player struct {
 
 	// listeners
 	playpauseListener           func(*js.Object)
+	playpauseMouseListener      func(*js.Object)
 	videoTimeUpdateListener     func(*js.Object)
 	ProgressBarClickListener    func(*js.Object)
 	ProgressBarDragListener     func(*js.Object)
@@ -48,6 +52,7 @@ type Player struct {
 	ProgressBarUpListener       func(*js.Object)
 	volumeBarListener           func(*js.Object)
 	fullscreenButtonListener    func(*js.Object)
+	fullscreenMouseListener     func(*js.Object)
 	fullscreenListener          func(*js.Object)
 	webkitFullscreenListener    func(*js.Object)
 	mozillaFullscreenListener   func(*js.Object)
@@ -84,6 +89,7 @@ func NewPlayer(parent dom.HTMLElement, url string) *Player {
 func (p *Player) Remove() {
 	// remove all listeners
 	p.PlayPause.RemoveEventListener("click", true, p.playpauseListener)
+	p.PlayPause.RemoveEventListener("click", true, p.playpauseMouseListener)
 	p.Video.RemoveEventListener("timeupdate", false, p.videoTimeUpdateListener)
 	p.Video.RemoveEventListener("click", false, p.ProgressBarClickListener)
 	p.Video.RemoveEventListener("mousemove", false, p.ProgressBarDragListener)
@@ -91,6 +97,7 @@ func (p *Player) Remove() {
 	p.Video.RemoveEventListener("mouseup", false, p.ProgressBarDownListener)
 	p.VolumeBar.RemoveEventListener("input", true, p.volumeBarListener)
 	p.FullscreenButton.RemoveEventListener("click", true, p.fullscreenButtonListener)
+	p.FullscreenButton.RemoveEventListener("click", true, p.fullscreenMouseListener)
 	document.RemoveEventListener("fullscreenchange", false, p.fullscreenListener)
 	document.RemoveEventListener("webkitfullscreenchange", false, p.webkitFullscreenListener)
 	document.RemoveEventListener("mozfullscreenchange", false, p.mozillaFullscreenListener)

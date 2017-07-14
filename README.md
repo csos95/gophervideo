@@ -64,8 +64,9 @@ All other dependencies will be pulled with `go get`
 | show buffered data on progress bar | not started | will do when decorating the progress bar |
 | resize elements as needed | done | right now the progress bar is the only thing that needs to be resized |
 | show time on hover over progress bar | not started |
-| click in window to play/pause | not started |
-| double click in window to enter/exit fullscreen | not started |
+| click on video to play/pause | done |
+| double click on video to enter/exit fullscreen | done |
+| hide controls when mouse is over video, but not moving | not started |
 
 ## Controls
 | Key | Action |
