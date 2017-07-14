@@ -35,23 +35,33 @@ func (p *Player) setupListeners() {
 	// 	p.Seek(seekTime)
 	// })
 
-	// back.addEventListener('click', function(e) {
-	// 		let x = e.pageX - back.offsetLeft;
-	// 	let y = e.pageY - back.offsetTop;
-	// 	front.setAttribute('style', 'width:' + x + 'px;');
-	// 	currentTime = x * maxTime / maxWidth;
-	// 	console.log(currentTime);
-	// })
+	// seek to the position clicked on (when seeking forward, the click event goes to the back div)
+	p.ProgressBarBackListener = p.ProgressBarBack.AddEventListener("click", true, func(event dom.Event) {
+		pageX := event.Underlying().Get("pageX").Int()
+		offsetX := p.ProgressBarBack.Get("offsetLeft").Int()
+		var containerX int
+		if !p.Fullscreen {
+			containerX = p.Container.Get("offsetLeft").Int()
+		}
+		x := pageX - containerX - offsetX
 
-	// back.addEventListener('mousemove', function(e) {
-	// 	if (seeking) {
-	// 		let x = e.pageX - back.offsetLeft;
-	// 		let y = e.pageY - back.offsetTop;
-	// 		front.setAttribute('style', 'width:' + x + 'px;');
-	// 		currentTime = x * maxTime / maxWidth;
-	// 		console.log(currentTime);
-	// 	}
-	// })
+		newTime := x * p.Duration / p.ProgressBarWidth
+		p.Seek(newTime)
+	})
+
+	// seek to the position clicked on (when seeking backward, the click event goes to the front div)
+	p.ProgressBarFrontListener = p.ProgressBarFront.AddEventListener("click", true, func(event dom.Event) {
+		pageX := event.Underlying().Get("pageX").Int()
+		offsetX := p.ProgressBarBack.Get("offsetLeft").Int()
+		var containerX int
+		if !p.Fullscreen {
+			containerX = p.Container.Get("offsetLeft").Int()
+		}
+		x := pageX - containerX - offsetX
+
+		newTime := x * p.Duration / p.ProgressBarWidth
+		p.Seek(newTime)
+	})
 
 	// change the volume dragging the volume bar
 	p.volumeBarListener = p.VolumeBar.AddEventListener("input", true, func(event dom.Event) {

@@ -21,7 +21,6 @@ func (p *Player) setupHTML() {
 	video.SetClass("GopherVideo-video")
 	video.SetAttribute("preload", "none")
 	video.SetAttribute("src", p.URL)
-	video.SetAttribute("type", "video/mp4")
 	container.AppendChild(video)
 
 	// div for the controls
@@ -101,7 +100,7 @@ func (p *Player) setupHTML() {
 }
 
 func objectToBasicHTMLElement(object *js.Object) *dom.BasicHTMLElement {
-	return &dom.BasicHTMLElement{&dom.BasicElement{&dom.BasicNode{object}}}
+	return &dom.BasicHTMLElement{BasicElement: &dom.BasicElement{BasicNode: &dom.BasicNode{Object: object}}}
 }
 
 func createSVG(d, transform, viewbox string) *dom.BasicHTMLElement {
