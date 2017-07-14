@@ -14,8 +14,17 @@ var cssSet = false
 
 // Player represents a gopher video player
 type Player struct {
+	// player data
 	ID               string
 	URL              string
+	Duration         int
+	ProgressBarWidth int
+	TimeTextWidth    int
+	Fullscreen       bool
+	FirstPlay        bool
+	Removed          bool
+
+	// player elements
 	Parent           dom.HTMLElement
 	Container        *dom.HTMLDivElement
 	Video            *dom.HTMLVideoElement
@@ -28,12 +37,17 @@ type Player struct {
 	VolumeIcon       *dom.BasicHTMLElement
 	VolumeBar        *dom.HTMLInputElement
 	FullscreenButton *dom.BasicHTMLElement
-	Duration         int
-	ProgressBarWidth int
-	TimeTextWidth    int
-	Fullscreen       bool
-	FirstPlay        bool
-	Removed          bool
+
+	// listeners
+	playpauseListener           func(*js.Object)
+	videoTimeUpdateListener     func(*js.Object)
+	volumeBarListener           func(*js.Object)
+	fullscreenButtonListener    func(*js.Object)
+	fullscreenListener          func(*js.Object)
+	webkitFullscreenListener    func(*js.Object)
+	mozillaFullscreenListener   func(*js.Object)
+	microsoftFullscreenListener func(*js.Object)
+	keyPressListener            func(*js.Object)
 }
 
 // NewPlayer returns a new gopher video player and the contained video
@@ -62,7 +76,23 @@ func NewPlayer(parent dom.HTMLElement, url string) *Player {
 
 // Remove the player from the document
 func (p *Player) Remove() {
+	// remove all listeners
+	p.PlayPause.RemoveEventListener("click", true, p.playpauseListener)
+	p.Video.RemoveEventListener("timeupdate", false, p.videoTimeUpdateListener)
+	p.VolumeBar.RemoveEventListener("input", true, p.volumeBarListener)
+	p.FullscreenButton.RemoveEventListener("click", true, p.fullscreenButtonListener)
+	document.RemoveEventListener("fullscreenchange", false, p.fullscreenListener)
+	document.RemoveEventListener("webkitfullscreenchange", false, p.fullscreenListener)
+	document.RemoveEventListener("mozfullscreenchange", false, p.fullscreenListener)
+	document.RemoveEventListener("MSFullscreenChange", false, p.fullscreenListener)
+	document.RemoveEventListener("keypress", false, p.keyPressListener)
+
+	p.Pause()
+	p.Video.SetAttribute("src", "")
+	p.Video.Call("load")
+	p.Container.RemoveChild(p.Video)
 	p.Parent.RemoveChild(p.Container)
+
 	p.Removed = true
 }
 

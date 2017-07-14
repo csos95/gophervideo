@@ -131,7 +131,6 @@ func (p *Player) setupCSS() {
 
 func (p *Player) styleProgressBar() {
 	p.Controls.SetAttribute("style", "display:inline-block;")
-	fmt.Printf("%f\n", p.DurationText.OffsetWidth())
 	p.TimeTextWidth = int(p.DurationText.OffsetWidth())
 
 	// left is the distance from the left side, right is from the right side

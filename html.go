@@ -19,11 +19,9 @@ func (p *Player) setupHTML() {
 	// the video
 	video := document.CreateElement("video").(*dom.HTMLVideoElement)
 	video.SetClass("GopherVideo-video")
-
-	// the source for the video
-	source := document.CreateElement("source").(*dom.HTMLSourceElement)
-	source.SetAttribute("src", p.URL)
-	video.AppendChild(source)
+	video.SetAttribute("preload", "none")
+	video.SetAttribute("src", p.URL)
+	video.SetAttribute("type", "video/mp4")
 	container.AppendChild(video)
 
 	// div for the controls

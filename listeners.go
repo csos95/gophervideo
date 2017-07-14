@@ -10,21 +10,22 @@ import (
 // Setup the listeners and controls for the video player
 func (p *Player) setupListeners() {
 	// listener to play/pause the video
-	p.PlayPause.AddEventListener("click", true, func(event dom.Event) {
+	p.playpauseListener = p.PlayPause.AddEventListener("click", true, func(event dom.Event) {
 		event.PreventDefault()
 		p.TogglePlay()
 	})
 
 	// listener to update the progress bar and time text
-	p.Video.AddEventListener("timeupdate", false, func(event dom.Event) {
+	p.videoTimeUpdateListener = p.Video.AddEventListener("timeupdate", false, func(event dom.Event) {
 		event.PreventDefault()
 		currentTime := p.Video.Get("currentTime").Int()
 		p.TimeText.SetTextContent(p.timeFormat(currentTime))
 
-		left := 40 + p.TimeTextWidth + 10
-		x := currentTime * p.ProgressBarWidth / p.Duration
-		p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("left:%dpx;width:%dpx;", left, x))
-		fmt.Println(fmt.Sprintf("width:%dpx;", x))
+		if p.Duration != 0 {
+			left := 40 + p.TimeTextWidth + 10
+			x := currentTime * p.ProgressBarWidth / p.Duration
+			p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("left:%dpx;width:%dpx;", left, x))
+		}
 	})
 
 	// seek through the video by dragging the progress bar
@@ -53,7 +54,7 @@ func (p *Player) setupListeners() {
 	// })
 
 	// change the volume dragging the volume bar
-	p.VolumeBar.AddEventListener("input", true, func(event dom.Event) {
+	p.volumeBarListener = p.VolumeBar.AddEventListener("input", true, func(event dom.Event) {
 		event.PreventDefault()
 		volume, _ := strconv.Atoi(p.VolumeBar.Value)
 		fmt.Println(volume)
@@ -61,27 +62,27 @@ func (p *Player) setupListeners() {
 	})
 
 	// click the fullscreen button to enter/exit fullscreen
-	p.FullscreenButton.AddEventListener("click", true, func(event dom.Event) {
+	p.fullscreenButtonListener = p.FullscreenButton.AddEventListener("click", true, func(event dom.Event) {
 		event.PreventDefault()
 		p.ToggleFullscreenState()
 	})
 
 	// fullscreenchange events to toggle the container style
-	document.AddEventListener("fullscreenchange", false, func(event dom.Event) {
+	p.fullscreenListener = document.AddEventListener("fullscreenchange", false, func(event dom.Event) {
 		p.toggleFullscreenStyle()
 	})
-	document.AddEventListener("webkitfullscreenchange", false, func(event dom.Event) {
+	p.webkitFullscreenListener = document.AddEventListener("webkitfullscreenchange", false, func(event dom.Event) {
 		p.toggleFullscreenStyle()
 	})
-	document.AddEventListener("mozfullscreenchange", false, func(event dom.Event) {
+	p.mozillaFullscreenListener = document.AddEventListener("mozfullscreenchange", false, func(event dom.Event) {
 		p.toggleFullscreenStyle()
 	})
-	document.AddEventListener("MSFullscreenChange", false, func(event dom.Event) {
+	p.microsoftFullscreenListener = document.AddEventListener("MSFullscreenChange", false, func(event dom.Event) {
 		p.toggleFullscreenStyle()
 	})
 
 	// keypress event listener for keybinds
-	document.AddEventListener("keypress", false, func(event dom.Event) {
+	p.keyPressListener = document.AddEventListener("keypress", false, func(event dom.Event) {
 		key := event.(*dom.KeyboardEvent).Key
 		if input, ok := event.Target().(*dom.HTMLInputElement); ok &&
 			input.Attributes()["type"] == "text" {
