@@ -91,8 +91,8 @@ func (p *Player) setupHTML() {
 	p.Video = video
 	p.Controls = controls
 	p.PlayPause = playpause
-	p.ProgressBarBack = pbb
-	p.ProgressBarFront = pbf
+	p.ProgressBarBack = progressBarBack
+	p.ProgressBarFront = progressBarFront
 	p.TimeText = timeText
 	p.DurationText = durationText
 	p.VolumeIcon = volumeIcon

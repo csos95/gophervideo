@@ -74,8 +74,8 @@ func (p *Player) setupCSS() {
 	.GopherVideo-progressbar-front {
 		margin: auto;
 		position: absolute;
-		left: 90px;
-		bottom: 15px;
+		left: 0px;
+		bottom: 0px;
 		width: 420px;
 		height: 10px;
 		background-color: #ccc;
@@ -145,7 +145,7 @@ func (p *Player) styleProgressBar() {
 	x := currentTime * p.ProgressBarWidth / p.Duration
 
 	p.ProgressBarBack.SetAttribute("style", fmt.Sprintf("left:%dpx;width:%dpx;", left, p.ProgressBarWidth))
-	p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("left:%dpx;width:%dpx;", left, x))
+	p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("width:%dpx;", x))
 
 	p.Controls.SetAttribute("style", "")
 }

@@ -22,9 +22,8 @@ func (p *Player) setupListeners() {
 		p.TimeText.SetTextContent(p.timeFormat(currentTime))
 
 		if p.Duration != 0 {
-			left := 40 + p.TimeTextWidth + 10
 			x := currentTime * p.ProgressBarWidth / p.Duration
-			p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("left:%dpx;width:%dpx;", left, x))
+			p.ProgressBarFront.SetAttribute("style", fmt.Sprintf("width:%dpx;", x))
 		}
 	})
 
