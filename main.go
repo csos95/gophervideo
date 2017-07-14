@@ -41,8 +41,8 @@ type Player struct {
 	// listeners
 	playpauseListener           func(*js.Object)
 	videoTimeUpdateListener     func(*js.Object)
-	ProgressBarBackListener     func(*js.Object)
-	ProgressBarFrontListener    func(*js.Object)
+	ProgressBarClickListener    func(*js.Object)
+	ProgressBarDragListener     func(*js.Object)
 	volumeBarListener           func(*js.Object)
 	fullscreenButtonListener    func(*js.Object)
 	fullscreenListener          func(*js.Object)

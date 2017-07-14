@@ -10,7 +10,7 @@ import (
 // Setup the listeners and controls for the video player
 func (p *Player) setupListeners() {
 	// listener to play/pause the video
-	p.playpauseListener = p.PlayPause.AddEventListener("click", true, func(event dom.Event) {
+	p.playpauseListener = p.PlayPause.AddEventListener("click", false, func(event dom.Event) {
 		event.PreventDefault()
 		p.TogglePlay()
 	})
@@ -28,6 +28,20 @@ func (p *Player) setupListeners() {
 		}
 	})
 
+	// seek to the position clicked on (when seeking forward, the click event goes to the back div)
+	p.ProgressBarClickListener = p.ProgressBarBack.AddEventListener("click", false, func(event dom.Event) {
+		pageX := event.Underlying().Get("pageX").Int()
+		offsetX := p.ProgressBarBack.Get("offsetLeft").Int()
+		var containerX int
+		if !p.Fullscreen {
+			containerX = p.Container.Get("offsetLeft").Int()
+		}
+		x := pageX - containerX - offsetX
+
+		newTime := x * p.Duration / p.ProgressBarWidth
+		p.Seek(newTime)
+	})
+
 	// seek through the video by dragging the progress bar
 	// p.ProgressBarBack.AddEventListener("input", true, func(event dom.Event) {
 	// 	event.PreventDefault()
@@ -35,36 +49,8 @@ func (p *Player) setupListeners() {
 	// 	p.Seek(seekTime)
 	// })
 
-	// seek to the position clicked on (when seeking forward, the click event goes to the back div)
-	p.ProgressBarBackListener = p.ProgressBarBack.AddEventListener("click", true, func(event dom.Event) {
-		pageX := event.Underlying().Get("pageX").Int()
-		offsetX := p.ProgressBarBack.Get("offsetLeft").Int()
-		var containerX int
-		if !p.Fullscreen {
-			containerX = p.Container.Get("offsetLeft").Int()
-		}
-		x := pageX - containerX - offsetX
-
-		newTime := x * p.Duration / p.ProgressBarWidth
-		p.Seek(newTime)
-	})
-
-	// seek to the position clicked on (when seeking backward, the click event goes to the front div)
-	p.ProgressBarFrontListener = p.ProgressBarFront.AddEventListener("click", true, func(event dom.Event) {
-		pageX := event.Underlying().Get("pageX").Int()
-		offsetX := p.ProgressBarBack.Get("offsetLeft").Int()
-		var containerX int
-		if !p.Fullscreen {
-			containerX = p.Container.Get("offsetLeft").Int()
-		}
-		x := pageX - containerX - offsetX
-
-		newTime := x * p.Duration / p.ProgressBarWidth
-		p.Seek(newTime)
-	})
-
 	// change the volume dragging the volume bar
-	p.volumeBarListener = p.VolumeBar.AddEventListener("input", true, func(event dom.Event) {
+	p.volumeBarListener = p.VolumeBar.AddEventListener("input", false, func(event dom.Event) {
 		event.PreventDefault()
 		volume, _ := strconv.Atoi(p.VolumeBar.Value)
 		fmt.Println(volume)
@@ -72,7 +58,7 @@ func (p *Player) setupListeners() {
 	})
 
 	// click the fullscreen button to enter/exit fullscreen
-	p.fullscreenButtonListener = p.FullscreenButton.AddEventListener("click", true, func(event dom.Event) {
+	p.fullscreenButtonListener = p.FullscreenButton.AddEventListener("click", false, func(event dom.Event) {
 		event.PreventDefault()
 		p.ToggleFullscreenState()
 	})
