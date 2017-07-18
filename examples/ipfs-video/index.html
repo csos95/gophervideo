@@ -6,16 +6,6 @@
 	body {
 		font-family: Arial, Arial, Helvetica, sans-serif;
 	}
-	#progress-back {
-		background-color: #666;
-		height: 10px;
-		width: 200px;
-	}
-	#progress-front {
-		background-color: #ccc;
-		height: 10px;
-		width: 50px;
-	}
 	</style>
 </head>
 <body>
@@ -61,42 +51,7 @@
 		j - go backward 10 seconds<br>
 		l - go forward 10 seconds</p>
 
-	<div id="progress-back">
-		<div id="progress-front"></div>
-	</div>
-
-	 <script type="text/javascript" src="/gopherjs/gopherjs.js"></script> 
-	<script>
-		let back = document.getElementById('progress-back');
-		let front = document.getElementById('progress-front');
-		let seeking = false;
-		let maxTime = 360; // this would be the length of the video in seconds
-		let maxWidth = back.clientWidth;
-
-		back.addEventListener('click', function(e) {
-			let x = e.pageX - back.offsetLeft;
-			let y = e.pageY - back.offsetTop;
-			front.setAttribute('style', 'width:' + x + 'px;');
-			currentTime = x * maxTime / maxWidth;
-			console.log(currentTime);
-		})
-
-		back.addEventListener('mousemove', function(e) {
-			if (seeking) {
-				let x = e.pageX - back.offsetLeft;
-				let y = e.pageY - back.offsetTop;
-				front.setAttribute('style', 'width:' + x + 'px;');
-				currentTime = x * maxTime / maxWidth;
-				console.log(currentTime);
-			}
-		})
-
-		back.addEventListener('mousedown', function(e) {
-			seeking = true;
-		})
-		document.addEventListener('mouseup', function(e) {
-			seeking = false;
-		})
-	</script>
+	<script type="text/javascript" src="gopherjs/gopherjs.js"></script>
+	
 </body>
 </html>
